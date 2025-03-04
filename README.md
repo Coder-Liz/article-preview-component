@@ -39,7 +39,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Solution URL: [Add solution URL here](https://www.frontendmentor.io/solutions/article-preview-component-WkjDprGglr)
 - Live Site URL: [Add live site URL here](https://tranquil-churros-2e17b8.netlify.app/)
 
 ## My process
