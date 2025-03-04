@@ -1,16 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
   const shareButton = document.querySelector('.article__share-button');
   const shareWrapper = document.querySelector('.article__share-wrapper');
+  const mobileAuthorWrapper = document.querySelector(
+    '.article__button-group-wrapper'
+  );
+  const mobileSharingWrapper = document.querySelector('.article__share-mobile');
+  const activeShareBtn = document.querySelector('.active');
 
-  if (shareButton && shareWrapper) {
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  if (
+    shareButton &&
+    shareWrapper &&
+    mobileAuthorWrapper &&
+    mobileSharingWrapper
+  ) {
     shareButton.addEventListener('click', (event) => {
       event.preventDefault();
-      shareWrapper.classList.toggle('display-none');
+      if (isMobile()) {
+        mobileAuthorWrapper.style.display = 'none';
+        mobileSharingWrapper.style.display = 'flex';
+      } else {
+        shareWrapper.classList.toggle('display-none');
+      }
     });
 
-    // Close share wrapper when clicking outside
+    // Desktop/Tablet: Close share wrapper when clicking outside
     document.addEventListener('click', (event) => {
       if (
+        !isMobile() &&
         !shareWrapper.contains(event.target) &&
         !shareButton.contains(event.target)
       ) {
@@ -18,16 +38,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Ensure touch support for mobile
-    document.addEventListener('touchstart', (event) => {
-      if (
-        !shareWrapper.contains(event.target) &&
-        !shareButton.contains(event.target)
-      ) {
+    // Mobile: Close sharing wrapper and show author wrapper
+    if (activeShareBtn) {
+      activeShareBtn.addEventListener('click', function () {
+        if (isMobile()) {
+          mobileAuthorWrapper.style.display = 'flex';
+          mobileSharingWrapper.style.display = 'none';
+        }
+      });
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (isMobile()) {
+        shareWrapper.classList.add('display-none');
+        mobileAuthorWrapper.style.display = 'flex';
+        mobileSharingWrapper.style.display = 'none';
+      } else {
+        mobileAuthorWrapper.style.display = '';
+        mobileSharingWrapper.style.display = '';
         shareWrapper.classList.add('display-none');
       }
     });
   } else {
-    console.error('Share button or wrapper not found');
+    console.error('Required elements not found');
   }
 });
